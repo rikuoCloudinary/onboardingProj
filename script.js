@@ -13,11 +13,11 @@ $(document).ready(function() {
   // Begin task 1 code
   uploadButton.onclick = function(){
      let urlvar = document.getElementById('urlInput').value;
-     // let secondParam = {type: "fetch", transformation: [
-     //      {gravity: "face", height: 300, width: 300, crop: "fill"},
-     //      {radius: "max"},
-     //      {fetch_format: "auto"}
-     //  ]}
+     let secondParam = {type: "fetch", transformation: [
+          {gravity: "face", height: 300, width: 300, crop: "fill"},
+          {radius: "max"},
+          {fetch_format: "auto"}
+      ]}
       //start cloudinary fetch code
       $.cloudinary.image(urlvar, secondParam);
       let imagePreview = $.cloudinary.imageTag(urlvar, secondParam).toHtml();
