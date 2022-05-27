@@ -3,17 +3,71 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+	<script src="./node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
+	<script src="./node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+	<script src="./node_modules/blueimp-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+	<script src="./node_modules/blueimp-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
+	<script src="./node_modules/cloudinary-jquery-file-upload/cloudinary-jquery-file-upload.js" type="text/javascript"></script>
+
+	<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+
+		
+	<script type="text/javascript" src="./script.js"></script>
+	<!-- cloudinary upload widget cdn -->
+
 
 	<title>Document</title>
 </head>
 <body style="text-align: center;">
 	<h1 class="title" >Profile pic creator</h1>
+	<!-- Cloudinary upload widget start -->
+	<div id="widgetResult" style="margin:auto;"></div>
+
+	<div class="uploadWidget left">
+
+
+		<button id="upload_widget" class="cloudinary-button">Upload files</button>
+
+
+		<script type="text/javascript">  
+		var myWidget = cloudinary.createUploadWidget({
+		  cloudName: 'majincloud', 
+		  uploadPreset: 'qexgwd0k',
+		  cropping: 'true',
+		  return_delete_token: 1
+		}, (error, result) => { 
+		    if (!error && result && result.event === "success") {
+	    		document.getElementById('deleteImageButton').onclick = function(){
+	    			$.cloudinary.delete_by_token(result.info.delete_token);
+	    			document.getElementById("widgetURL").removeAttribute('src');
+	    			console.log('success?', document.getElementById('widgetResult'));
+		  		}
+		      var widgetImageResult = result.info.url;
+		      var resultImage = document.createElement('img');
+		      resultImage.setAttribute("src", widgetImageResult);
+		      resultImage.setAttribute("style", "width:50%;");
+		      resultImage.setAttribute("id", "widgetURL");
+		      document.getElementById("widgetResult").appendChild(resultImage);
+		    }
+		  }
+		)
+
+		document.getElementById("upload_widget").addEventListener("click", function(){
+		    myWidget.open();
+		  }, false);
+
+
+		</script>
+	</div>
+<!-- Cloudinary upload widget end -->
+
 	<div class="left">
 		<h3>Upload Image via URL</h3>
 		<input type="text" id="urlInput" name="urlInput" placeholder="Enter URL here">	
 		<button id="uploadImageButton" class="uploadImage">Upload</button>
-		<button class="deleteImage">Delete</button>
+		<button id="deleteImageButton" class="deleteImage">Delete</button>
 		<p>Press Enter to upload the image</p>	
 	</div>
 	<div class="transformations">
@@ -45,11 +99,8 @@
 
 
 </body>
-<script src="./node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
-<script src="./node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
-<script src="./node_modules/blueimp-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
-<script src="./node_modules/blueimp-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
-<script src="./node_modules/cloudinary-jquery-file-upload/cloudinary-jquery-file-upload.js" type="text/javascript"></script>
-<script type="text/javascript" src="./script.js"></script>
 
 </html>
+
+
+<!-- https://res.cloudinary.com/demo/image/fetch/https://res.cloudinary.com/majincloud/image/fetch/c_scale,w_146/https://cdn.shopify.com/s/files/1/0506/6774/9566/products/havana-hat-tan-front-ss20-2500px_7920e1df-9840-4fef-b414-824a1f252f60_800x.jpg,g_faces,w_30,e_vignette/http://upload.wikimedia.org/wikipedia/commons/4/45/Spain_national_football_team_Euro_2012_final.jpg -->
